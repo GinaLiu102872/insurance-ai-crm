@@ -1,180 +1,101 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>客戶管理系統 - 雲端連線版</title>
-    <style>
-        body { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; max-width: 600px; margin: 0 auto; padding: 15px; background-color: #f0fdf4; color: #1e293b; line-height: 1.6; }
-        h2 { color: #166534; text-align: center; margin-bottom: 25px; font-weight: 800; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
-        .card { background: white; padding: 25px 20px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); margin-bottom: 25px; border-top: 6px solid #22c55e; }
-        input, textarea { width: 100%; padding: 14px; margin: 12px 0; border: 1px solid #cbd5e1; border-radius: 10px; box-sizing: border-box; font-size: 16px; transition: border-color 0.3s, box-shadow 0.3s; background-color: #f8fafc; }
-        input:focus, textarea:focus { outline: none; border-color: #22c55e; box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2); background-color: white; }
-        .btn-group { display: flex; gap: 12px; margin-top: 15px; flex-wrap: wrap; }
-        button { flex: 1; min-width: 110px; padding: 14px; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; transition: all 0.2s; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 8px; }
-        button:active { transform: scale(0.98); }
-        .btn-save { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.3); }
-        .btn-save:hover { background: linear-gradient(135deg, #16a34a, #15803d); box-shadow: 0 6px 8px -1px rgba(34, 197, 94, 0.4); }
-        .btn-save:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; transform: none; }
-        .btn-tool { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
-        .btn-tool:hover { background-color: #e2e8f0; color: #1e293b; }
-        .copy-btn { background: #334155; color: white; margin-top: 15px; width: 100%; }
-        .copy-btn:hover { background: #1e293b; }
-        #toolOutput { background: #eff6ff; padding: 18px; border-radius: 12px; border: 2px dashed #3b82f6; margin-top: 18px; min-height: 50px; white-space: pre-wrap; display: none; color: #1e3a8a; line-height: 1.7; font-size: 15px; }
-        .record-card { background: white; padding: 18px; border-radius: 12px; margin-bottom: 15px; border-left: 6px solid #3b82f6; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: transform 0.2s; }
-        .record-card:hover { transform: translateY(-2px); box-shadow: 0 6px 8px -1px rgba(0,0,0,0.08); }
-        .record-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-        .record-name { font-weight: bold; font-size: 17px; color: #0f172a; }
-        .record-date { font-size: 12px; color: #64748b; background: #f1f5f9; padding: 4px 8px; border-radius: 6px; }
-        .record-content { white-space: pre-wrap; margin: 0; color: #334155; line-height: 1.5; font-size: 15px; }
-        #searchBar { border: 2px solid #3b82f6; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 12px center; padding-left: 40px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1); }
-        #searchBar:focus { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>客戶管理系統 - 雲端連線版</title>
+<style>
+body { font-family:'Microsoft JhengHei', sans-serif; max-width:600px; margin:0 auto; padding:15px; background:#f0fdf4; color:#1e293b; }
+h2 { text-align:center; color:#166534; }
+.card { background:white; padding:25px 20px; border-radius:16px; box-shadow:0 10px 25px rgba(0,0,0,.1); margin-bottom:25px; border-top:6px solid #22c55e; }
+input, textarea { width:100%; padding:14px; margin:12px 0; border:1px solid #cbd5e1; border-radius:10px; box-sizing:border-box; font-size:16px; }
+button { width:100%; padding:14px; border:none; border-radius:10px; background:#22c55e; color:white; font-size:16px; font-weight:bold; }
+.btn-tool { background:#f1f5f9; color:#475569; border:1px solid #e2e8f0; margin-top:10px; }
+#toolOutput { background:#eff6ff; padding:18px; border-radius:12px; border:2px dashed #3b82f6; margin-top:18px; display:none; white-space:pre-wrap; }
+</style>
 </head>
+
 <body>
 
-    <h2>🤝 客戶互動與智能祝賀系統 (雲端升級版)</h2>
+<h2>🤝 客戶互動與智能祝賀系統</h2>
 
-    <div class="card">
-        <input type="text" id="clientName" placeholder="👤 輸入客戶姓名 (例如：林先生)">
-        <textarea id="interactionContent" rows="3" placeholder="📝 筆記、保單內容或待辦事項..."></textarea>
-        
-        <div class="btn-group">
-            <button class="btn-save" id="saveBtn" onclick="saveRecord()">儲存紀錄至雲端</button>
-        </div>
+<div class="card">
+  <input type="text" id="clientName" placeholder="👤 輸入客戶姓名，例如：林先生">
+  <input type="date" id="expireDate">
+  <textarea id="interactionContent" rows="4" placeholder="📝 筆記、保單內容或待辦事項..."></textarea>
 
-        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
-            <p style="margin:0 0 10px 0; font-weight:bold; color: #4338ca;">✨ 快速生成祝賀內容：</p>
-            <div class="btn-group">
-                <button class="btn-tool" onclick="generateWish('birthday')">🎂 生日</button>
-                <button class="btn-tool" onclick="generateWish('insurance')">📄 續保</button>
-                <button class="btn-tool" onclick="generateWish('festival')">🧧 節日</button>
-            </div>
-            
-            <div id="toolOutput"></div>
-            <button id="copyBtn" class="copy-btn" style="display:none;" onclick="copyWish()">📋 複製以上文字</button>
-            <button id="lineBtn" class="btn-save" style="display:none; background: #06C755; margin-top: 10px;" onclick="shareToLine()">💬 傳送至 LINE</button>
-        </div>
-    </div>
+  <button id="saveBtn" onclick="saveRecord()">儲存紀錄至雲端</button>
 
-    <input type="text" id="searchBar" onkeyup="filterRecords()" placeholder="搜尋紀錄...">
-    <div id="recordList"></div>
+  <hr style="margin:25px 0;">
 
-    <script>
-        // 已經幫您替換為您檔案中的最新網址
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyn7ZSp6_BdtPUTi7VIKtG-B8wpLc5J-r3iJKY8ZjfvBkyzZF34XwdMgV4Ad0Kun72NSg/exec";
+  <p><b>✨ 快速生成祝賀內容：</b></p>
+  <button class="btn-tool" onclick="generateWish('birthday')">🎂 生日</button>
+  <button class="btn-tool" onclick="generateWish('insurance')">📄 續保</button>
+  <button class="btn-tool" onclick="generateWish('festival')">🧧 節日</button>
 
-        window.onload = displayRecords;
+  <div id="toolOutput"></div>
+</div>
 
-        function generateWish(type) {
-            const nameInput = document.getElementById('clientName').value.trim();
-            const name = nameInput ? nameInput : "朋友";
-            let message = "";
-            
-            const wishes = {
-                birthday: [
-                    `親愛的${name}，祝您生日快樂！🎂\n在這特別的日子，祝福您身體健康、萬事如意，感謝您一直以來的信任。`,
-                    `Hi ${name}，祝您生日快樂！✨\n願您新的一年平安順心，美好的一天從今天開始！`
-                ],
-                insurance: [
-                    `親愛的${name}您好，提醒您保單續保期即將到來。📄\n為了確保您的保障不中斷，近日我會再聯繫您確認細節，有問題隨時私訊我喔！`
-                ],
-                festival: [
-                    `祝福${name} 佳節愉快！🏮\n願您與家人平安健康，心想事成，事事順心！`
-                ]
-            };
+<script>
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyn7ZSp6_BdtPUTi7VIKtG-B8wpLc5J-r3iJKY8ZjfvBkyzZF34XwdMgV4Ad0Kun72NSg/exec";
 
-            const list = wishes[type];
-            message = list[Math.floor(Math.random() * list.length)];
+function saveRecord() {
+  const name = document.getElementById("clientName").value.trim();
+  const expire = document.getElementById("expireDate").value;
+  const note = document.getElementById("interactionContent").value.trim();
 
-            const output = document.getElementById('toolOutput');
-            output.innerText = message;
-            output.style.display = 'block';
-            document.getElementById('copyBtn').style.display = 'block';
-            document.getElementById('lineBtn').style.display = 'block'; 
-        }
+  if (!name || !note) {
+    alert("請輸入客戶姓名與內容");
+    return;
+  }
 
-        function copyWish() {
-            const text = document.getElementById('toolOutput').innerText;
-            const tempTextArea = document.createElement("textarea");
-            tempTextArea.value = text;
-            document.body.appendChild(tempTextArea);
-            tempTextArea.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempTextArea);
-            alert("已複製到剪貼簿！");
-        }
+  const btn = document.getElementById("saveBtn");
+  btn.innerText = "資料儲存中...";
+  btn.disabled = true;
 
-        function shareToLine() {
-            const text = document.getElementById('toolOutput').innerText;
-            const encodedText = encodeURIComponent(text);
-            const lineUrl = `https://line.me/R/msg/text/?${encodedText}`;
-            
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                window.location.href = lineUrl;
-            } else {
-                window.open(lineUrl, '_blank');
-            }
-        }
+  const data = {
+    name: name,
+    expire: expire,
+    note: note
+  };
 
-        async function saveRecord() {
-            const name = document.getElementById('clientName').value;
-            const content = document.getElementById('interactionContent').value;
-            if (!name || !content) return alert("請輸入客戶姓名與內容喔！");
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify(data)
+  });
 
-            const btn = document.getElementById('saveBtn');
-            btn.innerText = "資料飛向雲端中... ☁️";
-            btn.disabled = true;
+  alert("已送出至 Google 試算表！");
 
-            try {
-                // 傳送到您的 Google 試算表
-                await fetch(GOOGLE_SCRIPT_URL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "text/plain;charset=utf-8"
-                    },
-                    body: JSON.stringify({ name: name, content: content })
-                });
-                
-                document.getElementById('clientName').value = "";
-                document.getElementById('interactionContent').value = "";
-                alert("太棒了！資料已安全存入 Google 試算表！");
-                displayRecords(); 
-            } catch (error) {
-                alert("哎呀，儲存失敗了。請檢查網址是否有貼對，或是網路連線是否正常。");
-            } finally {
-                btn.innerText = "儲存紀錄至雲端";
-                btn.disabled = false;
-            }
-        }
+  document.getElementById("clientName").value = "";
+  document.getElementById("expireDate").value = "";
+  document.getElementById("interactionContent").value = "";
 
-        async function displayRecords() {
-            const list = document.getElementById('recordList');
-            list.innerHTML = "<p style='text-align:center; color:gray;'>正在從 Google 雲端抓取最新資料...</p>";
-            
-            try {
-                const response = await fetch(GOOGLE_SCRIPT_URL);
-                const records = await response.json();
-                
-                list.innerHTML = records.map((item) => `
-                    <div class="record-card">
-                        <div class="record-header">
-                            <span class="record-name">${item.name}</span>
-                            <span class="record-date">${item.date}</span>
-                        </div>
-                        <p class="record-content">${item.content}</p>
-                    </div>
-                `).join('');
-            } catch (e) {
-                list.innerHTML = "<p style='color:red; text-align:center;'>無法連線至雲端資料庫，請檢查 GOOGLE_SCRIPT_URL 網址是否正確。</p>";
-            }
-        }
+  btn.innerText = "儲存紀錄至雲端";
+  btn.disabled = false;
+}
 
-        function filterRecords() {
-            const s = document.getElementById('searchBar').value.toLowerCase();
-            const cards = document.getElementsByClassName('record-card');
-            for (let c of cards) c.style.display = c.innerText.toLowerCase().includes(s) ? "block" : "none";
-        }
-    </script>
+function generateWish(type) {
+  const name = document.getElementById("clientName").value.trim() || "朋友";
+  let message = "";
+
+  if (type === "birthday") {
+    message = `親愛的${name}，祝您生日快樂！🎂\n在這特別的日子，祝福您身體健康、萬事如意，感謝您一直以來的信任。`;
+  }
+
+  if (type === "insurance") {
+    message = `親愛的${name}您好，提醒您保單續保期即將到來。📄\n為了確保您的保障不中斷，近日我會再聯繫您確認細節，有問題隨時私訊我喔！`;
+  }
+
+  if (type === "festival") {
+    message = `祝福${name}佳節愉快！🏮\n願您與家人平安健康，心想事成，事事順心！`;
+  }
+
+  const output = document.getElementById("toolOutput");
+  output.innerText = message;
+  output.style.display = "block";
+}
+</script>
+
 </body>
 </html>
